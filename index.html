@@ -19,16 +19,17 @@
             var weekDay = startOfDay.getDay()
             startOfDay.setHours(8, 0, 0, 0);
             var diff = (new Date().getTime() - startOfDay.getTime()) / 1000;
+            diff = diff > 0 ? diff : 0;
             var hours = diff / 3600;
             var minutes = (diff - Math.floor(hours) * 3600) / 60;
             var seconds = (diff - Math.floor(hours) * 3600 - Math.floor(minutes) * 60);
             var todayHoursLeft = hoursInDay[weekDay-1] - hours;
             var todayMinutesLeft = Math.floor((hoursInDay[weekDay-1] * 60 - minutes) % 60);
             var todaySecondsLeft = Math.floor((hoursInDay[weekDay-1] * 3600 - seconds) % 60);
-            if (diff <= 0) {
-                document.getElementById('text').innerHTML = 'Hyvä! Viikon työt on tehty!'
-                + ' Loppuviikon voikin käyttää miettien, miten olla vielä tehokkaampi '
-                + ' ensi viikolla kun pääsee takaisin toimistolle! ;)';
+            if (diff === 0) {
+                document.getElementById('text').innerHTML = 'Hei! Kohta alkaa taas työpäivä!'
+                + ' Toivottavasti olet oppinut jotain uutta vapaa-ajallasi jotta saat vielä '
+                + ' enemmän töistä tänään irti! ;) rok rok';
             } else {
                 if (todayHoursLeft < 0) {
                     var hoursLeft = Math.floor(80 - (weekDay) * 12);
