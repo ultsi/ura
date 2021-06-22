@@ -22,15 +22,15 @@
             var hours = diff / 3600;
             var minutes = (diff - Math.floor(hours) * 3600) / 60;
             var seconds = (diff - Math.floor(hours) * 3600 - Math.floor(minutes) * 60);
-            var todayHoursLeft = Math.floor(hoursInDay[weekDay-1] - hours);
+            var todayHoursLeft = hoursInDay[weekDay-1] - hours;
             var todayMinutesLeft = Math.floor((hoursInDay[weekDay-1] * 60 - minutes) % 60);
             var todaySecondsLeft = Math.floor((hoursInDay[weekDay-1] * 3600 - seconds) % 60);
-            if (diff < 0) {
+            if (diff <= 0) {
                 document.getElementById('text').innerHTML = 'Hyvä! Viikon työt on tehty!'
                 + ' Loppuviikon voikin käyttää miettien, miten olla vielä tehokkaampi '
                 + ' ensi viikolla kun pääsee takaisin toimistolle! ;)';
             } else {
-                if (todaySecondsLeft < 0) {
+                if (todayHoursLeft < 0) {
                     var hoursLeft = Math.floor(80 - (weekDay) * 12);
                     document.title = document.getElementById('text').innerHTML = 'Iltaa jengi! Se ois lisää '
                         + 'töitä taas huomenna, tältä viikolta enää jäljellä ' 
@@ -47,13 +47,14 @@
                         + 'töitä jäljellä tällä viikolla ;) rok rok!';
                 }
             }
-            if (todaySecondsLeft < 0) {
+            if (todayHoursLeft < 0) {
                 document.getElementById('text2').innerHTML = 'Hyvä! Päivän työt on tehty!'
                 + ' Mutta muista! Vapaa-ajan voi käyttää hyödyllisesti kehittämällä '
                 + ' open sourcea tai opiskelemalla AWS- tai Googlen sertifikaatteja. ;)';
             } else {
+                var todayHoursLeftPretty = Math.floor(todayHoursLeft);
                 document.getElementById('text2').innerHTML = 'Ja tänään siis jäljellä enää ' 
-                    + todayHoursLeft + (todayHoursLeft === 1 ? ' tunti ' : ' tuntia ')
+                    + todayHoursLeftPretty + (todayHoursLeftPretty === 1 ? ' tunti ' : ' tuntia ')
                     + todayMinutesLeft + (todayMinutesLeft === 1 ? ' minuutti ' : ' minuuttia ')
                     + todaySecondsLeft + (todaySecondsLeft === 1 ? ' sekunti ' : ' sekuntia ')
                     + ';) rok rok!';
