@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Enää 80 tuntia töitä jäljellä</title>
+    <link rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+    <div id="content">
+        <p id="text">Huomenta jengi! Se ois enää 80 tuntia jäljellä tällä viikolla ;) rok rok!</p>
+        <img src="ura.jpg" alt="ura" />
+        <p id="text2">Huomenta jengi! Se ois enää 80 tuntia jäljellä tällä viikolla ;) rok rok!</p>
+        <p>Jokainenhan tietää, että työpäivät on kasista kasiin, paitsi sunnuntaina kasista neljään.</p>
+    </div>
+    <script>
+        var hoursInDay = [12, 12, 12, 12, 12, 12, 8];
+        var update = function () {
+            var startOfDay = new Date();
+            var weekDay = startOfDay.getDay()
+            startOfDay.setHours(8, 0, 0, 0);
+            var diff = (new Date().getTime() - startOfDay.getTime()) / 1000;
+            var hours = Math.floor(diff / 3600);
+            var minutes = Math.floor((diff - hours * 3600) / 60);
+            var seconds = Math.floor((diff - hours * 3600 - minutes * 60));
+            var hoursLeft = 80 - (weekDay - 1) * 12 - hours;
+            if (diff < 0) {
+                document.getElementById('text').innerHTML = 'Hyvä! Viikon työt on tehty!'
+                + ' Loppuviikon voikin käyttää miettien, miten olla vielä tehokkaampi '
+                + ' ensi viikolla kun pääsee takaisin toimistolle! ;)';
+            } else {
+                var minutesLeft = (80 * 60 - (weekDay - 1) * 12 * 60 - minutes) % 60;
+                var secondsLeft = (80 * 3600 - (weekDay - 1) * 12 * 3600 - seconds) % 60;
+                document.title = document.getElementById('text').innerHTML = 'Huomenta jengi! Se ois enää ' 
+                    + hoursLeft + (hoursLeft === 1 ? ' tunti ' : ' tuntia ')
+                    + minutesLeft + (minutesLeft === 1 ? ' minuutti ' : ' minuuttia ') 
+                    + secondsLeft + (secondsLeft === 1 ? ' sekunti ' : ' sekuntia ')
+                    + 'töitä jäljellä tällä viikolla ;) rok rok!';
+            }
+            var todayHoursLeft = hoursInDay[weekDay-1] - hours;
+            var todayMinutesLeft = (hoursInDay[weekDay-1] * 60 - minutes) % 60;
+            var todaySecondsLeft = (hoursInDay[weekDay-1] * 3600 - seconds) % 60;
+            if (todaySecondsLeft < 0) {
+                document.getElementById('text2').innerHTML = 'Hyvä! Päivän työt on tehty!'
+                + ' Mutta muista! Vapaa-ajan voi käyttää hyödyllisesti kehittämällä '
+                + ' open sourcea tai opiskelemalla AWS- tai Googlen sertifikaatteja. ;)';
+            } else {
+                document.getElementById('text2').innerHTML = 'Ja tänään siis jäljellä enää ' 
+                    + todayHoursLeft + (todayHoursLeft === 1 ? ' tunti ' : ' tuntia ')
+                    + todayMinutesLeft + (todayMinutesLeft === 1 ? ' minuutti ' : ' minuuttia ')
+                    + todaySecondsLeft + (todaySecondsLeft === 1 ? ' sekunti ' : ' sekuntia ')
+                    + ';) rok rok!';
+            }
+            
+        };
+        window.onload = update;
+        setInterval(update, 1000);
+    </script>
+</body>
