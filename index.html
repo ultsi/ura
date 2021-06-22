@@ -19,26 +19,26 @@
             var weekDay = startOfDay.getDay()
             startOfDay.setHours(8, 0, 0, 0);
             var diff = (new Date().getTime() - startOfDay.getTime()) / 1000;
-            var hours = Math.floor(diff / 3600);
-            var minutes = Math.floor((diff - hours * 3600) / 60);
-            var seconds = Math.floor((diff - hours * 3600 - minutes * 60));
-            var hoursLeft = 80 - (weekDay - 1) * 12 - hours;
+            var hours = diff / 3600;
+            var minutes = (diff - Math.floor(hours) * 3600) / 60;
+            var seconds = (diff - Math.floor(hours) * 3600 - Math.floor(minutes) * 60);
             if (diff < 0) {
                 document.getElementById('text').innerHTML = 'Hyvä! Viikon työt on tehty!'
                 + ' Loppuviikon voikin käyttää miettien, miten olla vielä tehokkaampi '
                 + ' ensi viikolla kun pääsee takaisin toimistolle! ;)';
             } else {
-                var minutesLeft = (80 * 60 - (weekDay - 1) * 12 * 60 - minutes) % 60;
-                var secondsLeft = (80 * 3600 - (weekDay - 1) * 12 * 3600 - seconds) % 60;
+                var hoursLeft = Math.floor(80 - (weekDay - 1) * 12 - hours);
+                var minutesLeft = Math.floor((80 * 60 - (weekDay - 1) * 12 * 60 - minutes) % 60);
+                var secondsLeft = Math.floor((80 * 3600 - (weekDay - 1) * 12 * 3600 - seconds) % 60);
                 document.title = document.getElementById('text').innerHTML = 'Huomenta jengi! Se ois enää ' 
                     + hoursLeft + (hoursLeft === 1 ? ' tunti ' : ' tuntia ')
                     + minutesLeft + (minutesLeft === 1 ? ' minuutti ' : ' minuuttia ') 
                     + secondsLeft + (secondsLeft === 1 ? ' sekunti ' : ' sekuntia ')
                     + 'töitä jäljellä tällä viikolla ;) rok rok!';
             }
-            var todayHoursLeft = hoursInDay[weekDay-1] - hours;
-            var todayMinutesLeft = (hoursInDay[weekDay-1] * 60 - minutes) % 60;
-            var todaySecondsLeft = (hoursInDay[weekDay-1] * 3600 - seconds) % 60;
+            var todayHoursLeft = Math.floor(hoursInDay[weekDay-1] - hours);
+            var todayMinutesLeft = Math.floor((hoursInDay[weekDay-1] * 60 - minutes) % 60);
+            var todaySecondsLeft = Math.floor((hoursInDay[weekDay-1] * 3600 - seconds) % 60);
             if (todaySecondsLeft < 0) {
                 document.getElementById('text2').innerHTML = 'Hyvä! Päivän työt on tehty!'
                 + ' Mutta muista! Vapaa-ajan voi käyttää hyödyllisesti kehittämällä '
